@@ -1,14 +1,9 @@
-const sinon = require('sinon');
-const controller = require('../../src/company/CompanyController');
-const sequalize = require('../../src/config/db');
+import sinon from 'sinon';
+import controller from '../../src/company/CompanyController';
 
 const resStub = { status() { return { json(obj) { return Promise.resolve(obj); } }; } };
 describe('CompanyController', () => {
   let r;
-  afterAll((done) => {
-    sequalize.close();
-    done();
-  });
   it('catches error on findAll', async () => {
     controller.model.findAll = jest.fn(() => Promise.reject(new Error('bad')));
     r = await controller.find({}, resStub);
@@ -16,11 +11,6 @@ describe('CompanyController', () => {
   });
   it('catches error on model.create', async () => {
     controller.model.create = jest.fn(() => Promise.reject(new Error('bad')));
-    r = await controller.create({ body: {} }, resStub);
-    expect(r.message).toBe('bad');
-  });
-  it('catches error on model.count', async () => {
-    controller.model.count = jest.fn(() => Promise.reject(new Error('bad')));
     r = await controller.create({ body: {} }, resStub);
     expect(r.message).toBe('bad');
   });

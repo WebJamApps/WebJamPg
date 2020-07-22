@@ -2,8 +2,10 @@ import dotenv from 'dotenv';
 import Debug from 'debug';
 import { Sequelize } from 'sequelize';
 import sStub from './sStub';
+
 const debug = Debug('web-jam-back:index');
 dotenv.config();
+// eslint-disable-next-line import/no-mutable-exports
 let sequelize;
 /* istanbul ignore else */
 if (process.env.NODE_ENV === 'test') sequelize = sStub.sStub;

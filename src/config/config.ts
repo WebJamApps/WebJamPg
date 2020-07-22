@@ -1,5 +1,7 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
 import checkVar from './checkVar';
+
+dotenv.config();
 
 const config = {
   env: checkVar.fetchEnv('NODE_ENV'),

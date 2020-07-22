@@ -1,11 +1,14 @@
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
 import model from './user.model';
+
 const saltRounds = 10;
 dotenv.config();
 class UserController {
-  model: typeof model
-  bcrypt: typeof bcrypt
+  model: typeof model;
+
+  bcrypt: typeof bcrypt;
+
   constructor() {
     this.model = model;
     this.bcrypt = bcrypt;

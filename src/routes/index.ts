@@ -1,8 +1,8 @@
 import express from 'express';
 import Debug from 'debug';
 import makeTableRows from '../config/makeTableRows';
-const debug = Debug('webjampg:routes');
 
+const debug = Debug('webjampg:routes');
 
 const router = express.Router();
 const resetDb = async (req, res) => {

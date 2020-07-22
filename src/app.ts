@@ -1,8 +1,8 @@
-require('dotenv').config();
 import express from 'express';
+import dotenv from 'dotenv';
+import Debug from 'debug';
 import bodyParser from 'body-parser';
 import path from 'path';
-const debug = require('debug')('webjampg:app');
 import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -12,8 +12,10 @@ import sdc from './config/SDC';
 import iRouter from './routes';
 import cRouter from './company';
 import uRouter from './user';
+import './config/db';
 
-require('./config/db');
+dotenv.config();
+const debug = Debug('webjampg:app');
 
 const corsOptions = {
   origin: JSON.parse(process.env.AllowUrl || '{}').urls,

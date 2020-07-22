@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import sq from './db';
 import userModel from '../user/user.model';
 import companyModel from '../company/company.model';
+
 dotenv.config();
 const debug = Debug('webjampg:makeTableRows');
 let p1, p2;

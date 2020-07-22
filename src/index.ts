@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import http from 'http';
 import config from './config/config';
 import app from './app';
+
 dotenv.config();
 const { port } = config;
 app.set('port', port);
@@ -10,7 +11,8 @@ app.set('env', config.env);
 const server = http.createServer(app);
 /* istanbul ignore next */
 function onError(error: { syscall: string; code: any; }) {
-  if (error.syscall !== 'listen') throw error;
+  // eslint-disable-next-line no-console
+  if (error.syscall !== 'listen') { console.error(error); process.exit(1); }
   const bind = typeof port === 'string'
     ? `pipe ${port}`
     : `port ${port}`;
@@ -22,13 +24,14 @@ function onError(error: { syscall: string; code: any; }) {
     case 'EADDRINUSE':
       console.error(`${bind} is already in use.`); // eslint-disable-line no-console
       process.exit(1);
-    default: throw error;
+    // eslint-disable-next-line no-console
+    default: { console.error(error); process.exit(1); }
   }
 }
 /* istanbul ignore next */
 function onListening() {
   const addr = server.address();
-  let bind = `something went wrong`;
+  let bind = 'something went wrong';
   if (typeof addr === 'string') bind = `pipe ${addr}`;
   else if (addr) bind = `port ${addr.port}`;
   console.log(`web server listening on ${bind}`); // eslint-disable-line no-console

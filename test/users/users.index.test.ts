@@ -1,6 +1,6 @@
-const req = require('supertest');
-const app = require('../../src/app');
-const controller = require('../../src/user/UserController');
+import req from 'supertest';
+import app from '../../src/app';
+import controller from '../../src/user/UserController';
 
 describe('/users C.R.U.D.', () => {
   let r;

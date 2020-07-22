@@ -8,16 +8,19 @@ checks:
       threshold:          30
   similar-code:
     config:
-      threshold:          85
+      threshold:          75
   identical-code:
     config:
-      threshold:          50
+      threshold:          45
   method-complexity:
     config:
       threshold:          10
   argument-count:
     config:
       threshold:          5
+  file-lines:
+    config:
+      threshold: 300
 plugins:
   duplication:
     enabled:              true
@@ -26,19 +29,18 @@ plugins:
         enabled:          true
     config:
       languages:
-        javascript:
-          mass_threshold: 50
+        typescript:
+          mass_threshold: 45
   fixme:
     enabled:              true
 ratings:
   paths:
   - "**.js"
   - "**.jsx"
+  - "**.ts"
 exclude_patterns:
-- "front-end/src/__tests__/"
-- "tests/"
+- "build"
+- "test/"
 - "**/node_modules/"
 - "coverage/"
 - "codeclimate.html"
-- "__tests__/"
-- "front-end/"

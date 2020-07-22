@@ -1,5 +1,6 @@
 import express from 'express';
 import controller from './UserController';
+
 const router = express.Router();
 router.route('/')
   .post((req, res) => controller.create(req, res))

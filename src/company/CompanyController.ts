@@ -1,10 +1,14 @@
-const debug = require('debug')('webjampg:CompanyController');
+import Debug from 'debug';
 import model from './company.model';
 import commonUtils from '../commonUtils';
 
+const debug = Debug('webjampg:CompanyController');
+
 class CompanyController {
-  model: typeof model
-  commonUtils: typeof commonUtils
+  model: typeof model;
+
+  commonUtils: typeof commonUtils;
+
   constructor() {
     this.model = model;
     this.commonUtils = commonUtils;

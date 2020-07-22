@@ -1,6 +1,7 @@
 import express from 'express';
 import controller from './CompanyController';
 import commonUtils from '../commonUtils';
+
 const router = express.Router();
 
 router.route('/')
