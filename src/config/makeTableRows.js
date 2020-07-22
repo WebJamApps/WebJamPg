@@ -2,8 +2,8 @@ require('dotenv').config();
 const debug = require('debug')('webjampg:makeTableRows');
 const bcrypt = require('bcryptjs');
 const sq = require('./db');
-const userModel = require('../server/user/user.model.js');
-const companyModel = require('../server/company/company.model.js');
+const userModel = require('../user/user.model.js');
+const companyModel = require('../company/company.model.js');
 
 let p1, p2;
 const doExit = (message) => {

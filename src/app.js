@@ -8,12 +8,12 @@ const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const fs = require('fs');
-const sdc = require('../config/SDC');
+const sdc = require('./config/SDC');
 const iRouter = require('./routes');
 const cRouter = require('./company');
 const uRouter = require('./user');
 
-require('../config/db');
+require('./config/db');
 
 const corsOptions = {
   origin: JSON.parse(process.env.AllowUrl).urls,

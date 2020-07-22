@@ -1,6 +1,6 @@
 const req = require('supertest');
-const app = require('../../server/app');
-const controller = require('../../server/user/UserController');
+const app = require('../../src/app');
+const controller = require('../../src/user/UserController');
 
 describe('/users C.R.U.D.', () => {
   let r;

@@ -1,4 +1,4 @@
-const cU = require('../server/commonUtils');
+const cU = require('../src/commonUtils');
 
 describe('common utils', () => {
   it('should return error when missing id', () => new Promise((done) => {

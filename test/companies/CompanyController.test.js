@@ -1,6 +1,6 @@
 const sinon = require('sinon');
-const controller = require('../../server/company/CompanyController');
-const sequalize = require('../../config/db');
+const controller = require('../../src/company/CompanyController');
+const sequalize = require('../../src/config/db');
 
 const resStub = { status() { return { json(obj) { return Promise.resolve(obj); } }; } };
 describe('CompanyController', () => {

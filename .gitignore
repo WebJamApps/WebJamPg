@@ -4,3 +4,4 @@ uploads
 coverage
 db-data
 package-lock.json
+build

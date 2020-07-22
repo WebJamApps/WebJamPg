@@ -1,6 +1,6 @@
 const request = require('supertest');
-const app = require('../../server/app.js');
-const sStub = require('../../config/sStub');
+const app = require('../../src/app');
+const sStub = require('../../src/config/sStub');
 
 describe('index routes', () => {
   let agent, server;

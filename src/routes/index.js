@@ -1,7 +1,7 @@
 // const express = require('express');
 const { Router } = require('express');
 const debug = require('debug')('webjampg:routes');
-const makeTableRows = require('../../config/makeTableRows');
+const makeTableRows = require('../config/makeTableRows');
 
 // const path = require('path');
 

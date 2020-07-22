@@ -1,5 +1,5 @@
-const server = require('../bin/www');
-const checkVar = require('../config/checkVar');
+const server = require('../src');
+const checkVar = require('../src/config/checkVar');
 
 describe('bin and config', () => {
   it('should setup the server', () => {

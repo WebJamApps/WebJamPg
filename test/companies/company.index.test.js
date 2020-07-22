@@ -1,7 +1,7 @@
 const request = require('supertest');
-const model = require('../../server/company/company.model');
-const app = require('../../server/app');
-const sequalize = require('../../config/db');
+const model = require('../../src/company/company.model');
+const app = require('../../src/app');
+const sequalize = require('../../src/config/db');
 
 describe('company routes', () => {
   let server, agent;
