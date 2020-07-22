@@ -1,0 +1,12 @@
+ {
+   "bail": true,
+   "clearMocks": true,
+   "collectCoverage": true,
+   "collectCoverageFrom": ["server/**/*.{js,jsx}", "config/**/*.{js,jsx}", "bin/*.{js,jsx}"],
+   "coverageDirectory": "coverage",
+   "coveragePathIgnorePatterns": ["/node_modules/", "/front-end/"],
+   "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/front-end/tests/", "<rootDir>/__tests__/__mocks__/"],
+   "verbose": true,
+   "testEnvironment": "node",
+   "roots": ["<rootDir>/server/", "<rootDir>/__tests__/"]
+ }

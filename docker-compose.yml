@@ -1,0 +1,37 @@
+version:  '3'
+services:
+  traefik:
+    image: traefik:1.7.16
+    command: --api --docker
+    ports:
+      - "80:80"
+      - "8099:8099"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+
+  db:
+    container_name: wj-pg-db-service
+    image: kartoza/postgis
+    volumes:
+      - ./uploads:/wj-pg-db-service/uploads
+      - ./db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=webjam
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+    labels:
+      - traefik.enable=false
+
+  pgadmin:
+    container_name: wj-pgadmin-container
+    image: dpage/pgadmin4
+    environment :
+      - PGADMIN_DEFAULT_EMAIL=admin@web-jam.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+    logging:
+      driver: none
+    ports:
+      - 3400:80
