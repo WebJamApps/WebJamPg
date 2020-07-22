@@ -1,5 +1,5 @@
 require('dotenv').config();
-const checkVar = require('./checkVar');
+import checkVar from './checkVar';
 
 const config = {
   env: checkVar.fetchEnv('NODE_ENV'),
@@ -9,5 +9,4 @@ const config = {
   statsd: checkVar.fetchEnv('STATSD'),
   uPath: checkVar.fetchEnv('UPLOAD_PATH'),
 };
-
-module.exports = config;
+export default config;

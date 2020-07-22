@@ -1,15 +1,15 @@
-require('dotenv').config();
-const http = require('http');
-const config = require('./config/config');
-const app = require('./app');
-
+import dotenv from 'dotenv';
+import http from 'http';
+import config from './config/config';
+import app from './app';
+dotenv.config();
 const { port } = config;
 app.set('port', port);
 app.set('env', config.env);
 
 const server = http.createServer(app);
 /* istanbul ignore next */
-function onError(error) {
+function onError(error: { syscall: string; code: any; }) {
   if (error.syscall !== 'listen') throw error;
   const bind = typeof port === 'string'
     ? `pipe ${port}`
@@ -28,7 +28,9 @@ function onError(error) {
 /* istanbul ignore next */
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  let bind = `something went wrong`;
+  if (typeof addr === 'string') bind = `pipe ${addr}`;
+  else if (addr) bind = `port ${addr.port}`;
   console.log(`web server listening on ${bind}`); // eslint-disable-line no-console
 }
 /* istanbul ignore if */
@@ -36,4 +38,4 @@ if (process.env.NODE_ENV !== 'test') server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-module.exports = server;
+export default server;

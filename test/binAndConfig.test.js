@@ -1,7 +1,7 @@
 const server = require('../src');
 const checkVar = require('../src/config/checkVar');
 
-describe('bin and config', () => {
+describe('index and config', () => {
   it('should setup the server', () => {
     expect(server._connections).toBe(0);
   });

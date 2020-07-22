@@ -22,4 +22,4 @@ const sStub = {
     logging: false,
   },
 };
-module.exports = { sStub, findAllReturns };
+export default { sStub, findAllReturns };

@@ -1,5 +1,5 @@
-const makeTableRows = require('./makeTableRows');
-const sq = require('./db');
+import makeTableRows from './makeTableRows';
+import sq from './db';
 
 makeTableRows.runEverything().then(async () => {
   await sq.close();

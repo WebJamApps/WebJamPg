@@ -4,11 +4,8 @@
   "engines": {
     "node": ">=14.4.0"
   },
-  "main": "bin/www",
+  "main": "src/index",
   "files": [
-    "bin/",
-    "config/",
-    "server/",
     "src/"
   ],
   "scripts": {
@@ -18,7 +15,8 @@
     "cc": "codeclimate analyze -f html > codeclimate.html",
     "installglobals": "npm install npm@latest -g && npm install snyk -g",
     "cleaninstall": "rm -rf yarn.lock && rm -rf package-lock.json && rm -rf node_modules && yarn cache clean && yarn run installglobals && yarn install",
-    "start:debug": "DEBUG=webjampg:* nodemon src/index.js",
+    "start:debug": "concurrently \"yarn ts-start\" \"tsc -w\"",
+    "ts-start": "DEBUG=webjampg:* nodemon build/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "node src/index.js",
@@ -51,6 +49,10 @@
     "statsd-client": "latest"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/body-parser": "^1.19.0",
+    "@types/express": "^4.17.7",
+    "concurrently": "^5.2.0",
     "eslint": "latest",
     "eslint-config-airbnb": "latest",
     "eslint-plugin-import": "latest",

@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/db');
-const User = require('../user/user.model');
+import Sequelize from 'sequelize';
+import sequelize from '../config/db';
+import User from '../user/user.model';
 
 const CompanyModel = sequelize.define('company', {
   // attributes
@@ -12,4 +12,4 @@ const CompanyModel = sequelize.define('company', {
   // options
 });
 CompanyModel.hasMany(User);// makes foreign key
-module.exports = CompanyModel;
+export default CompanyModel;

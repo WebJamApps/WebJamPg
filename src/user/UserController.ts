@@ -1,11 +1,11 @@
-require('dotenv').config();
-const bcrypt = require('bcryptjs');
-
+import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
+import model from './user.model';
 const saltRounds = 10;
-
-const model = require('./user.model');
-
+dotenv.config();
 class UserController {
+  model: typeof model
+  bcrypt: typeof bcrypt
   constructor() {
     this.model = model;
     this.bcrypt = bcrypt;
@@ -18,7 +18,7 @@ class UserController {
   }
 
   validatePin(pin) { // eslint-disable-line class-methods-use-this
-    const valid = (pin.toString().length === 4 && Number(pin) !== 'NaN'); return valid;
+    const valid = (typeof pin === 'number' && pin.toString().length === 4); return valid;
   }
 
   async create(req, res) {
@@ -89,4 +89,4 @@ class UserController {
       .catch((e) => res.status(500).json({ message: `Failed to delete user, ${e.message}` }));
   }
 }
-module.exports = new UserController();
+export default new UserController();

@@ -1,22 +1,22 @@
 require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
 const debug = require('debug')('webjampg:app');
-const fileUpload = require('express-fileupload');
-const cors = require('cors');
-const morgan = require('morgan');
-const helmet = require('helmet');
-const fs = require('fs');
-const sdc = require('./config/SDC');
-const iRouter = require('./routes');
-const cRouter = require('./company');
-const uRouter = require('./user');
+import fileUpload from 'express-fileupload';
+import cors from 'cors';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import fs from 'fs';
+import sdc from './config/SDC';
+import iRouter from './routes';
+import cRouter from './company';
+import uRouter from './user';
 
 require('./config/db');
 
 const corsOptions = {
-  origin: JSON.parse(process.env.AllowUrl).urls,
+  origin: JSON.parse(process.env.AllowUrl || '{}').urls,
   credentials: true,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
@@ -58,4 +58,4 @@ app.use('/api/company', cRouter);
 app.use('/api/user', uRouter);
 // app.get('*', (req, res) => res.sendFile(path.normalize(path.join(__dirname, `${root}front-end/dist/index.html`))));
 debug(app.settings);
-module.exports = app;
+export default app;
