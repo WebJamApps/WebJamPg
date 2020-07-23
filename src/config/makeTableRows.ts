@@ -55,7 +55,7 @@ const setUsers = async () => {
   try {
     companies = await companyModel.findAll();
     users = await userModel.findAll();
-    companies[0].addUser(users[0].id);
+    await companies[0].addUser(users[0].id);
   } catch (e) { return Promise.reject(e); }
   return true;
 };

@@ -6,7 +6,8 @@ const checkIdThen = (req, res, func, controller) => {
   if (req.params.id === null || req.params.id === undefined) return res.status(400).json({ message: 'id is required' });
   return controller[func](req, res);// eslint-disable-line security/detect-object-injection
 };
-const findAll = async (req, res, model) => {
+
+const findAll = async (req, res, model): Promise<any> => {
   /* istanbul ignore if */
   if (process.env.NODE_ENV === 'development') await model.sync();
   let allDocs;
@@ -14,35 +15,36 @@ const findAll = async (req, res, model) => {
   return res.status(200).json(allDocs);
 };
 
-const remove = async (model, req, res) => {
-  debug('findByIdAndRemove');
-  /* istanbul ignore if */
-  if (process.env.NODE_ENV === 'development') await model.sync();
-  let success = 0;
-  try { success = await model.destroy({ where: { id: req.params.id } }); } catch (e) {
-    return res.status(500).json({ message: e.message });
-  }
-  if (success > 0) return res.status(204).send();
-  return res.status(400).json({ message: 'nothing was deleted' });
-};
-
-const update = async (model, req, res) => {
-  debug('findByIdAndUpdate');
-  /* istanbul ignore if */
-  if (process.env.NODE_ENV === 'development') await model.sync();
+async function byId(model, req, res, method) {
   let item, uP;
-  try { item = await model.findOne({ where: { id: req.params.id } }); } catch (e) {
+  // eslint-disable-next-line security/detect-object-injection
+  try { item = await model[method]({ where: { id: req.params.id } }); } catch (e) {
     return res.status(500).json({ message: e.message });
   }
-  if (!item) return res.status(400).json({ message: 'incorrect id' });
+  if (method === 'destroy' && item > 0) return res.status(204).send();
+  if (!item || item === 0) return res.status(400).json({ message: 'incorrect id' });
   try {
     item.set(req.body);
     uP = await item.save();
   } catch (e) {
-    debug(e);
+    debug(e.message);
     return res.status(500).json({ message: e.message });
   }
   return res.status(200).json(uP);
+}
+
+const remove = async (model, req, res): Promise<any> => {
+  debug('findByIdAndRemove');
+  /* istanbul ignore if */
+  if (process.env.NODE_ENV === 'development') await model.sync();
+  return byId(model, req, res, 'destroy');
+};
+
+const update = async (model, req, res): Promise<any> => {
+  debug('findByIdAndUpdate');
+  /* istanbul ignore if */
+  if (process.env.NODE_ENV === 'development') await model.sync();
+  return byId(model, req, res, 'findOne');
 };
 
 const setIdRoutes = (router, controller) => {

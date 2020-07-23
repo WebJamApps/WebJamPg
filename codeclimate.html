@@ -572,35 +572,39 @@
             <li
               data-categories="duplication"
               data-engine="duplication">
-              <h2>Similar blocks of code found in 2 locations. Consider refactoring.</h2>
+              <h2>Identical blocks of code found in 2 locations. Consider refactoring.</h2>
               <div class="code">
                 <pre class="line-numbers language-typescript"
-                     data-line="22-24"
-                     data-start="20"
-                     data-line-offset="19"><code>  if (process.env.NODE_ENV === &#39;development&#39;) await model.sync();
-  let success = 0;
-  try { success = await model.destroy({ where: { id: req.params.id } }); } catch (e) {
+                     data-line="26-32"
+                     data-start="24"
+                     data-line-offset="23"><code>  if (method === &#39;destroy&#39; &amp;&amp; item &gt; 0) return res.status(204).send();
+  if (!item || item === 0) return res.status(400).json({ message: &#39;incorrect id&#39; });
+  try {
+    item.set(req.body);
+    uP = await item.save();
+  } catch (e) {
+    debug(e.message);
     return res.status(500).json({ message: e.message });
   }
-  if (success &gt; 0) return res.status(204).send();
-  return res.status(400).json({ message: &#39;nothing was deleted&#39; });
+  return res.status(200).json(uP);
+}
 </code></pre>
               </div>
 
                 <details>
                   <summary>Other instances</summary>
-                    <h4>src/commonUtils.ts</h4>
+                    <h4>src/company/CompanyController.ts</h4>
                     <div class="code">
                       <pre class="line-numbers language-typescript"
-                           data-line="34-36"
-                           data-start="32"
-                           data-line-offset="31"><code>  if (process.env.NODE_ENV === &#39;development&#39;) await model.sync();
-  let item, uP;
-  try { item = await model.findOne({ where: { id: req.params.id } }); } catch (e) {
-    return res.status(500).json({ message: e.message });
+                           data-line="25-27"
+                           data-start="23"
+                           data-line-offset="22"><code>    if (process.env.NODE_ENV === &#39;development&#39;) await this.model.sync();
+    let newSchool;
+    try {
+      newSchool = await this.model.create(req.body);
+    } catch (e) { debug(e.message); return res.status(500).json({ message: e.message }); }
+    return res.status(201).json(newSchool);
   }
-  if (!item) return res.status(400).json({ message: &#39;incorrect id&#39; });
-  try {
 </code></pre>
                     </div>
                 </details>
@@ -618,7 +622,7 @@
 
 <h2>Tuning</h2>
 
-<p><strong>This issue has a mass of 80</strong>.</p>
+<p><strong>This issue has a mass of 48</strong>.</p>
 
 <p>We set useful threshold defaults for the languages we support but you may want to adjust these settings based on your project guidelines.</p>
 
@@ -656,18 +660,18 @@
             <li
               data-categories="duplication"
               data-engine="duplication">
-              <h2>Similar blocks of code found in 2 locations. Consider refactoring.</h2>
+              <h2>Identical blocks of code found in 2 locations. Consider refactoring.</h2>
               <div class="code">
                 <pre class="line-numbers language-typescript"
-                     data-line="34-36"
-                     data-start="32"
-                     data-line-offset="31"><code>  if (process.env.NODE_ENV === &#39;development&#39;) await model.sync();
-  let item, uP;
-  try { item = await model.findOne({ where: { id: req.params.id } }); } catch (e) {
-    return res.status(500).json({ message: e.message });
+                     data-line="25-27"
+                     data-start="23"
+                     data-line-offset="22"><code>    if (process.env.NODE_ENV === &#39;development&#39;) await this.model.sync();
+    let newSchool;
+    try {
+      newSchool = await this.model.create(req.body);
+    } catch (e) { debug(e.message); return res.status(500).json({ message: e.message }); }
+    return res.status(201).json(newSchool);
   }
-  if (!item) return res.status(400).json({ message: &#39;incorrect id&#39; });
-  try {
 </code></pre>
               </div>
 
@@ -676,15 +680,19 @@
                     <h4>src/commonUtils.ts</h4>
                     <div class="code">
                       <pre class="line-numbers language-typescript"
-                           data-line="22-24"
-                           data-start="20"
-                           data-line-offset="19"><code>  if (process.env.NODE_ENV === &#39;development&#39;) await model.sync();
-  let success = 0;
-  try { success = await model.destroy({ where: { id: req.params.id } }); } catch (e) {
+                           data-line="26-32"
+                           data-start="24"
+                           data-line-offset="23"><code>  if (method === &#39;destroy&#39; &amp;&amp; item &gt; 0) return res.status(204).send();
+  if (!item || item === 0) return res.status(400).json({ message: &#39;incorrect id&#39; });
+  try {
+    item.set(req.body);
+    uP = await item.save();
+  } catch (e) {
+    debug(e.message);
     return res.status(500).json({ message: e.message });
   }
-  if (success &gt; 0) return res.status(204).send();
-  return res.status(400).json({ message: &#39;nothing was deleted&#39; });
+  return res.status(200).json(uP);
+}
 </code></pre>
                     </div>
                 </details>
@@ -702,7 +710,7 @@
 
 <h2>Tuning</h2>
 
-<p><strong>This issue has a mass of 80</strong>.</p>
+<p><strong>This issue has a mass of 48</strong>.</p>
 
 <p>We set useful threshold defaults for the languages we support but you may want to adjust these settings based on your project guidelines.</p>
 
@@ -733,7 +741,7 @@
 </ul>
                 </details>
               <div class="found-in">
-                Found in src/commonUtils.ts by
+                Found in src/company/CompanyController.ts by
                 <a href="https://docs.codeclimate.com/docs/duplication">duplication</a>
               </div>
             </li>

@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'development') sequelize.options.logging = false;
 (async () => {
   try {
     await sequelize.authenticate();
-  } catch (e) { return debug('Unable to connect to the database:', e); }
+  } catch (e) { /* istanbul ignore next */return debug('Unable to connect to the database:', e); }
   return debug('Connection has been established successfully.');
 })();
 export default sequelize;

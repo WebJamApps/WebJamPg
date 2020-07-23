@@ -41,6 +41,9 @@ describe('company routes', () => {
     expect(pU.status).toBe(200);
     expect(pU.body.name).toBe('Max');
     expect(pU.body.id).toBe(result.body.id);
+    const cById = await agent
+      .get(`/api/company/${result.body.id}`);
+    expect(cById.status).toBe(200);
     const goodDelete = await agent
       .delete(`/api/company/${result.body.id}`);
     expect(goodDelete.status).toBe(204);

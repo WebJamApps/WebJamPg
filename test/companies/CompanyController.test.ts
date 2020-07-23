@@ -46,7 +46,7 @@ describe('CompanyController', () => {
     const cMock = sinon.mock(controller.model);
     cMock.expects('destroy').resolves(0);
     r = await controller.remove({ params: { id: '3' }, body: {} }, resStub);
-    expect(r.message).toBe('nothing was deleted');
+    expect(r.message).toBe('incorrect id');
     cMock.restore();
   });
   it('returns 500 on findById from this.model', async () => {

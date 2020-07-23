@@ -5,3 +5,4 @@ coverage
 db-data
 package-lock.json
 build
+codeclimate.html
