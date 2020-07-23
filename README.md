@@ -10,7 +10,6 @@
 
         -   Username: admin@web-jam.com
         -   Password: password
-
     <br>
 
 - Configuration for pgAmin to create a new server and connect to postgres is as follows:
