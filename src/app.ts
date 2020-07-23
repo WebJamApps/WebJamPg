@@ -1,22 +1,24 @@
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const debug = require('debug')('webjampg:app');
-const fileUpload = require('express-fileupload');
-const cors = require('cors');
-const morgan = require('morgan');
-const helmet = require('helmet');
-const fs = require('fs');
-const sdc = require('./config/SDC');
-const iRouter = require('./routes');
-const cRouter = require('./company');
-const uRouter = require('./user');
+import express from 'express';
+import dotenv from 'dotenv';
+import Debug from 'debug';
+import bodyParser from 'body-parser';
+import path from 'path';
+import fileUpload from 'express-fileupload';
+import cors from 'cors';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import fs from 'fs';
+import sdc from './config/SDC';
+import iRouter from './routes';
+import cRouter from './company';
+import uRouter from './user';
+import './config/db';
 
-require('./config/db');
+dotenv.config();
+const debug = Debug('webjampg:app');
 
 const corsOptions = {
-  origin: JSON.parse(process.env.AllowUrl).urls,
+  origin: JSON.parse(process.env.AllowUrl || /* istanbul ignore next */'{}').urls,
   credentials: true,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
@@ -27,21 +29,21 @@ const logDirectory = path.join(__dirname, `${root}${process.env.UPLOAD_PATH}/log
 // ensure log directory exists
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 fs.mkdir(path.join(logDirectory), (err) => {
+  /* istanbul ignore else */
   if (!err || err.message.includes('EEXIST')) return debug('logDirectory created successfully');
-  return debug(err.message);
+  /* istanbul ignore next */return debug(err.message);
 });
-// shell.mkdir('-p', logDirectory);
 const iconsDir = path.join(__dirname, `${root}${process.env.UPLOAD_PATH}/icons`);
-// ensure log directory exists
+// ensure icon directory exists
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 fs.mkdir(iconsDir, (err) => {
+  /* istanbul ignore else */
   if (!err || err.message.includes('EEXIST')) return debug('iconsDir created successfully');
-  return debug(err.message);
+  /* istanbul ignore next */return debug(err.message);
 });
-// shell.mkdir('-p', iconsDir);
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const accessLogStream = fs.createWriteStream(`${logDirectory}/access.log`, { flags: 'a' });
-app.use(express.static(path.normalize(path.join(__dirname, `${root}front-end/dist`))));
+// app.use(express.static(path.normalize(path.join(__dirname, `${root}front-end/dist`))));
 app.use(cors(corsOptions));
 app.use(helmet());
 // Body Parser Settings
@@ -51,11 +53,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 // setup logger for HTTP requests
 app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "date": ":date[clf]", '
-+ '"method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": '
-+ '":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}', { stream: accessLogStream }));
+  + '"method": ":method", "url": ":url", "http_version": ":http-version", "status": ":status", "result_length": '
+  + '":res[content-length]", "referrer": ":referrer", "user_agent": ":user-agent", "response_time": ":response-time"}', { stream: accessLogStream }));
 app.use('/api', iRouter);
 app.use('/api/company', cRouter);
 app.use('/api/user', uRouter);
 // app.get('*', (req, res) => res.sendFile(path.normalize(path.join(__dirname, `${root}front-end/dist/index.html`))));
 debug(app.settings);
-module.exports = app;
+export default app;

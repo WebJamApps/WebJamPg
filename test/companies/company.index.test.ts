@@ -1,7 +1,7 @@
-const request = require('supertest');
-const model = require('../../src/company/company.model');
-const app = require('../../src/app');
-const sequalize = require('../../src/config/db');
+import request from 'supertest';
+import model from '../../src/company/company.model';
+import app from '../../src/app';
+import sequalize from '../../src/config/db';
 
 describe('company routes', () => {
   let server, agent;
@@ -41,6 +41,9 @@ describe('company routes', () => {
     expect(pU.status).toBe(200);
     expect(pU.body.name).toBe('Max');
     expect(pU.body.id).toBe(result.body.id);
+    const cById = await agent
+      .get(`/api/company/${result.body.id}`);
+    expect(cById.status).toBe(200);
     const goodDelete = await agent
       .delete(`/api/company/${result.body.id}`);
     expect(goodDelete.status).toBe(204);

@@ -1,12 +1,10 @@
-// const express = require('express');
-const { Router } = require('express');
-const debug = require('debug')('webjampg:routes');
-const makeTableRows = require('../config/makeTableRows');
+import express from 'express';
+import Debug from 'debug';
+import makeTableRows from '../config/makeTableRows';
 
-// const path = require('path');
+const debug = Debug('webjampg:routes');
 
-const router = Router();
-// const frontend = Router();
+const router = express.Router();
 const resetDb = async (req, res) => {
   debug('resetDB');
   try { await makeTableRows.runEverything(); } catch (e) { return res.status(500).json({ message: e.message }); }
@@ -21,4 +19,4 @@ if (process.env.NODE_ENV !== 'production') {
     .get((req, res) => resetDb(req, res));
 }
 
-module.exports = router;
+export default router;

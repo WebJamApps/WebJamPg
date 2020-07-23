@@ -1,5 +1,5 @@
-const controller = require('../../src/user/UserController');
-const sequalize = require('../../src/config/db');
+import controller from '../../src/user/UserController';
+import sequalize from '../../src/config/db';
 
 const resStub = { status() { return { json(obj) { return Promise.resolve(obj); } }; } };
 describe('UserController', () => {

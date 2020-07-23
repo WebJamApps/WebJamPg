@@ -1,10 +1,12 @@
-require('dotenv').config();
-const debug = require('debug')('webjampg:makeTableRows');
-const bcrypt = require('bcryptjs');
-const sq = require('./db');
-const userModel = require('../user/user.model.js');
-const companyModel = require('../company/company.model.js');
+import dotenv from 'dotenv';
+import Debug from 'debug';
+import bcrypt from 'bcryptjs';
+import sq from './db';
+import userModel from '../user/user.model';
+import companyModel from '../company/company.model';
 
+dotenv.config();
+const debug = Debug('webjampg:makeTableRows');
 let p1, p2;
 const doExit = (message) => {
   debug(message);
@@ -53,7 +55,7 @@ const setUsers = async () => {
   try {
     companies = await companyModel.findAll();
     users = await userModel.findAll();
-    companies[0].addUser(users[0].id);
+    await companies[0].addUser(users[0].id);
   } catch (e) { return Promise.reject(e); }
   return true;
 };
@@ -69,4 +71,4 @@ const runEverything = async () => {
   } catch (e) { return doExit(e.message); }
   return doExit('db has been populated');
 };
-module.exports = { runEverything, runSyncInOrder };
+export default { runEverything, runSyncInOrder };

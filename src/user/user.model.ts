@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/db');
+import Sequelize from 'sequelize';
+import sequelize from '../config/db';
 
 const UserModel = sequelize.define('user', {
   // attributes
@@ -19,4 +19,4 @@ const UserModel = sequelize.define('user', {
 
 });
 
-module.exports = UserModel;
+export default UserModel;

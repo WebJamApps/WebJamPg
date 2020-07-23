@@ -1,8 +1,14 @@
-const debug = require('debug')('webjampg:CompanyController');
-const model = require('./company.model');
-const commonUtils = require('../commonUtils');
+import Debug from 'debug';
+import model from './company.model';
+import commonUtils from '../commonUtils';
+
+const debug = Debug('webjampg:CompanyController');
 
 class CompanyController {
+  model: typeof model;
+
+  commonUtils: typeof commonUtils;
+
   constructor() {
     this.model = model;
     this.commonUtils = commonUtils;
@@ -39,4 +45,4 @@ class CompanyController {
 
   remove(req, res) { return this.commonUtils.remove(this.model, req, res); }
 }
-module.exports = new CompanyController();
+export default new CompanyController();

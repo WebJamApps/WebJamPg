@@ -1,16 +1,18 @@
-require('dotenv').config();
-const http = require('http');
-const config = require('./config/config');
-const app = require('./app');
+import dotenv from 'dotenv';
+import http from 'http';
+import config from './config/config';
+import app from './app';
 
+dotenv.config();
 const { port } = config;
 app.set('port', port);
 app.set('env', config.env);
 
 const server = http.createServer(app);
 /* istanbul ignore next */
-function onError(error) {
-  if (error.syscall !== 'listen') throw error;
+function onError(error: { syscall: string; code: any; }) {
+  // eslint-disable-next-line no-console
+  if (error.syscall !== 'listen') { console.error(error); process.exit(1); }
   const bind = typeof port === 'string'
     ? `pipe ${port}`
     : `port ${port}`;
@@ -22,13 +24,16 @@ function onError(error) {
     case 'EADDRINUSE':
       console.error(`${bind} is already in use.`); // eslint-disable-line no-console
       process.exit(1);
-    default: throw error;
+    // eslint-disable-next-line no-console
+    default: { console.error(error); process.exit(1); }
   }
 }
 /* istanbul ignore next */
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  let bind = 'something went wrong';
+  if (typeof addr === 'string') bind = `pipe ${addr}`;
+  else if (addr) bind = `port ${addr.port}`;
   console.log(`web server listening on ${bind}`); // eslint-disable-line no-console
 }
 /* istanbul ignore if */
@@ -36,4 +41,4 @@ if (process.env.NODE_ENV !== 'test') server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-module.exports = server;
+export default server;

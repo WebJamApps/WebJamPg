@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-clike.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/line-highlight/prism-line-highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-typescript.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/line-numbers/prism-line-numbers.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/line-highlight/prism-line-highlight.min.css" />
@@ -167,11 +168,18 @@
       });
     </script>
     <style>
+      .filter-category-duplication > li,
+      .filter-engine-duplication > li,
       .filter-none > li {
         display: none;
       }
 
+      .filter-category-all.filter-engine-duplication > li[data-engine="duplication"],
+      .filter-category-duplication.filter-engine-all > li[data-categories~="duplication"],
       .filter-category-all.filter-engine-all > li[data-categories~="all"][data-engine="all"],
+      .filter-category-all.filter-engine-duplication > li[data-categories~="all"][data-engine="duplication"],
+      .filter-category-duplication.filter-engine-all > li[data-categories~="duplication"][data-engine="all"],
+      .filter-category-duplication.filter-engine-duplication > li[data-categories~="duplication"][data-engine="duplication"],
       .filter-category-all.filter-engine-all > li {
         display: block;
       }
@@ -548,9 +556,197 @@
       </nav>
       <div id="main-container">
 
-          <div id="no-issues-message">
-            No issues have been found!
+          <div class="issue-filters">
+            <label for="category-filter">Category</label>
+            <select id="category-filter">
+              <option value="">All Categories</option>
+              <option value="duplication">Duplication</option>
+            </select>
+            <label for="engine-filter">Engine</label>
+            <select id="engine-filter">
+              <option value="">All Engines</option>
+              <option value="duplication">duplication</option>
+            </select>
           </div>
+          <ul id="smells">
+            <li
+              data-categories="duplication"
+              data-engine="duplication">
+              <h2>Identical blocks of code found in 2 locations. Consider refactoring.</h2>
+              <div class="code">
+                <pre class="line-numbers language-typescript"
+                     data-line="26-32"
+                     data-start="24"
+                     data-line-offset="23"><code>  if (method === &#39;destroy&#39; &amp;&amp; item &gt; 0) return res.status(204).send();
+  if (!item || item === 0) return res.status(400).json({ message: &#39;incorrect id&#39; });
+  try {
+    item.set(req.body);
+    uP = await item.save();
+  } catch (e) {
+    debug(e.message);
+    return res.status(500).json({ message: e.message });
+  }
+  return res.status(200).json(uP);
+}
+</code></pre>
+              </div>
+
+                <details>
+                  <summary>Other instances</summary>
+                    <h4>src/company/CompanyController.ts</h4>
+                    <div class="code">
+                      <pre class="line-numbers language-typescript"
+                           data-line="25-27"
+                           data-start="23"
+                           data-line-offset="22"><code>    if (process.env.NODE_ENV === &#39;development&#39;) await this.model.sync();
+    let newSchool;
+    try {
+      newSchool = await this.model.create(req.body);
+    } catch (e) { debug(e.message); return res.status(500).json({ message: e.message }); }
+    return res.status(201).json(newSchool);
+  }
+</code></pre>
+                    </div>
+                </details>
+                <details>
+                  <summary>Details</summary>
+                  <h2>Duplicated Code</h2>
+
+<p>Duplicated code can lead to software that is hard to understand and difficult to change. The Don&#39;t Repeat Yourself (DRY) principle states:</p>
+
+<blockquote>
+<p>Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.</p>
+</blockquote>
+
+<p>When you violate DRY, bugs and maintenance problems are sure to follow. Duplicated code has a tendency to both continue to replicate and also to diverge (leaving bugs as two similar implementations differ in subtle ways).</p>
+
+<h2>Tuning</h2>
+
+<p><strong>This issue has a mass of 48</strong>.</p>
+
+<p>We set useful threshold defaults for the languages we support but you may want to adjust these settings based on your project guidelines.</p>
+
+<p>The threshold configuration represents the minimum <a href="https://docs.codeclimate.com/docs/duplication#mass" target="_blank">mass</a> a code block must have to be analyzed for duplication. The lower the threshold, the more fine-grained the comparison.</p>
+
+<p>If the engine is too easily reporting duplication, try raising the threshold. If you suspect that the engine isn&#39;t catching enough duplication, try lowering the threshold. The best setting tends to differ from language to language.</p>
+
+<p>See <a href="https://docs.codeclimate.com/docs/duplication" target="_blank"><code>codeclimate-duplication</code>&#39;s documentation</a> for more information about tuning the mass threshold in your <code>.codeclimate.yml</code>.</p>
+
+<h2>Refactorings</h2>
+
+<ul>
+<li>  <a href="http://sourcemaking.com/refactoring/extract-method" target="_blank">Extract Method</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/extract-class" target="_blank">Extract Class</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/form-template-method" target="_blank">Form Template Method</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/introduce-null-object" target="_blank">Introduce Null Object</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/pull-up-method" target="_blank">Pull Up Method</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/pull-up-field" target="_blank">Pull Up Field</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/substitute-algorithm" target="_blank">Substitute Algorithm</a></li>
+</ul>
+
+<h2>Further Reading</h2>
+
+<ul>
+<li>  <a href="http://c2.com/cgi/wiki?DontRepeatYourself" target="_blank">Don&#39;t Repeat Yourself</a> on the C2 Wiki</li>
+<li>  <a href="http://sourcemaking.com/refactoring/duplicated-code" target="_blank">Duplicated Code</a> on SourceMaking</li>
+<li>  <a href="http://www.amazon.com/Refactoring-Improving-Design-Existing-Code/dp/0201485672" target="_blank">Refactoring: Improving the Design of Existing Code</a> by Martin Fowler. <em>Duplicated Code</em>, p76</li>
+</ul>
+                </details>
+              <div class="found-in">
+                Found in src/commonUtils.ts by
+                <a href="https://docs.codeclimate.com/docs/duplication">duplication</a>
+              </div>
+            </li>
+            <li
+              data-categories="duplication"
+              data-engine="duplication">
+              <h2>Identical blocks of code found in 2 locations. Consider refactoring.</h2>
+              <div class="code">
+                <pre class="line-numbers language-typescript"
+                     data-line="25-27"
+                     data-start="23"
+                     data-line-offset="22"><code>    if (process.env.NODE_ENV === &#39;development&#39;) await this.model.sync();
+    let newSchool;
+    try {
+      newSchool = await this.model.create(req.body);
+    } catch (e) { debug(e.message); return res.status(500).json({ message: e.message }); }
+    return res.status(201).json(newSchool);
+  }
+</code></pre>
+              </div>
+
+                <details>
+                  <summary>Other instances</summary>
+                    <h4>src/commonUtils.ts</h4>
+                    <div class="code">
+                      <pre class="line-numbers language-typescript"
+                           data-line="26-32"
+                           data-start="24"
+                           data-line-offset="23"><code>  if (method === &#39;destroy&#39; &amp;&amp; item &gt; 0) return res.status(204).send();
+  if (!item || item === 0) return res.status(400).json({ message: &#39;incorrect id&#39; });
+  try {
+    item.set(req.body);
+    uP = await item.save();
+  } catch (e) {
+    debug(e.message);
+    return res.status(500).json({ message: e.message });
+  }
+  return res.status(200).json(uP);
+}
+</code></pre>
+                    </div>
+                </details>
+                <details>
+                  <summary>Details</summary>
+                  <h2>Duplicated Code</h2>
+
+<p>Duplicated code can lead to software that is hard to understand and difficult to change. The Don&#39;t Repeat Yourself (DRY) principle states:</p>
+
+<blockquote>
+<p>Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.</p>
+</blockquote>
+
+<p>When you violate DRY, bugs and maintenance problems are sure to follow. Duplicated code has a tendency to both continue to replicate and also to diverge (leaving bugs as two similar implementations differ in subtle ways).</p>
+
+<h2>Tuning</h2>
+
+<p><strong>This issue has a mass of 48</strong>.</p>
+
+<p>We set useful threshold defaults for the languages we support but you may want to adjust these settings based on your project guidelines.</p>
+
+<p>The threshold configuration represents the minimum <a href="https://docs.codeclimate.com/docs/duplication#mass" target="_blank">mass</a> a code block must have to be analyzed for duplication. The lower the threshold, the more fine-grained the comparison.</p>
+
+<p>If the engine is too easily reporting duplication, try raising the threshold. If you suspect that the engine isn&#39;t catching enough duplication, try lowering the threshold. The best setting tends to differ from language to language.</p>
+
+<p>See <a href="https://docs.codeclimate.com/docs/duplication" target="_blank"><code>codeclimate-duplication</code>&#39;s documentation</a> for more information about tuning the mass threshold in your <code>.codeclimate.yml</code>.</p>
+
+<h2>Refactorings</h2>
+
+<ul>
+<li>  <a href="http://sourcemaking.com/refactoring/extract-method" target="_blank">Extract Method</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/extract-class" target="_blank">Extract Class</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/form-template-method" target="_blank">Form Template Method</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/introduce-null-object" target="_blank">Introduce Null Object</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/pull-up-method" target="_blank">Pull Up Method</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/pull-up-field" target="_blank">Pull Up Field</a></li>
+<li>  <a href="http://sourcemaking.com/refactoring/substitute-algorithm" target="_blank">Substitute Algorithm</a></li>
+</ul>
+
+<h2>Further Reading</h2>
+
+<ul>
+<li>  <a href="http://c2.com/cgi/wiki?DontRepeatYourself" target="_blank">Don&#39;t Repeat Yourself</a> on the C2 Wiki</li>
+<li>  <a href="http://sourcemaking.com/refactoring/duplicated-code" target="_blank">Duplicated Code</a> on SourceMaking</li>
+<li>  <a href="http://www.amazon.com/Refactoring-Improving-Design-Existing-Code/dp/0201485672" target="_blank">Refactoring: Improving the Design of Existing Code</a> by Martin Fowler. <em>Duplicated Code</em>, p76</li>
+</ul>
+                </details>
+              <div class="found-in">
+                Found in src/company/CompanyController.ts by
+                <a href="https://docs.codeclimate.com/docs/duplication">duplication</a>
+              </div>
+            </li>
+          </ul>
+          <div id="filtered-out-message">All issues have been filtered out</div>
       </div>
     </div>
   </div>
