@@ -12,7 +12,7 @@
         -   Password: password
     <br>
 
-- Configuration for pgAmin to create a new server and connect to postgres is as follows:
+- Configuration for pgAdmin to create a new server and connect to postgres is as follows:
 
         -   Host name: wj-pg-db-service
         -   Port: 5432
