@@ -11,15 +11,16 @@ const findAll = async (req, res, model): Promise<any> => {
   /* istanbul ignore if */
   if (process.env.NODE_ENV === 'development') await model.sync();
   let allDocs;
-  try { allDocs = await model.findAll(); } catch (e) { return res.status(500).json({ message: e.message }); }
+  try { allDocs = await model.findAll(); } catch (e) { return res.status(500).json({ message: (e as Error).message }); }
   return res.status(200).json(allDocs);
 };
 
-async function byId(model, req, res, method) {
+async function 
+byId(model, req, res, method) {
   let item, uP;
   // eslint-disable-next-line security/detect-object-injection
   try { item = await model[method]({ where: { id: req.params.id } }); } catch (e) {
-    return res.status(500).json({ message: e.message });
+    return res.status(500).json({ message: (e as Error).message });
   }
   if (method === 'destroy' && item > 0) return res.status(204).send();
   if (!item || item === 0) return res.status(400).json({ message: 'incorrect id' });
@@ -27,8 +28,8 @@ async function byId(model, req, res, method) {
     item.set(req.body);
     uP = await item.save();
   } catch (e) {
-    debug(e.message);
-    return res.status(500).json({ message: e.message });
+    debug((e as Error).message);
+    return res.status(500).json({ message: (e as Error).message });
   }
   return res.status(200).json(uP);
 }

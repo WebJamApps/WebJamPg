@@ -24,7 +24,7 @@ class CompanyController {
     let newSchool;
     try {
       newSchool = await this.model.create(req.body);
-    } catch (e) { debug(e.message); return res.status(500).json({ message: e.message }); }
+    } catch (e) { debug((e as Error).message); return res.status(500).json({ message: (e as Error).message }); }
     return res.status(201).json(newSchool);
   }
 
@@ -33,7 +33,7 @@ class CompanyController {
   async findById(req, res) {
     let item;
     try { item = await this.model.findOne({ where: { id: req.params.id } }); } catch (e) {
-      return res.status(500).json({ message: e.message });
+      return res.status(500).json({ message: (e as Error).message });
     }
     if (!item) return res.status(400).json({ message: 'incorrect id' });
     return res.status(200).json(item);

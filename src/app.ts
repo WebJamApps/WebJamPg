@@ -8,7 +8,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import fs from 'fs';
-import sdc from './config/SDC';
+// import sdc from './config/SDC';
 import iRouter from './routes';
 import cRouter from './company';
 import uRouter from './user';
@@ -23,7 +23,7 @@ const corsOptions = {
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 const app = express();
-debug(sdc);
+// debug(sdc);
 const root = '../';
 const logDirectory = path.join(__dirname, `${root}${process.env.UPLOAD_PATH}/logs`);
 // ensure log directory exists

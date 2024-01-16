@@ -7,7 +7,8 @@ const debug = Debug('webjampg:routes');
 const router = express.Router();
 const resetDb = async (req, res) => {
   debug('resetDB');
-  try { await makeTableRows.runEverything(); } catch (e) { return res.status(500).json({ message: e.message }); }
+  try { await makeTableRows.runEverything(); } catch (e) { 
+    return res.status(500).json({ message: (e as Error).message }); }
   return res.status(200).json({ status: 200, message: 'db was reset' });
 };
 router.route('/health-check')

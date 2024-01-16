@@ -2,6 +2,8 @@
 
 ## Initial Setup
 
+- Copy the .env.example file and paste it as .env file. Make any changes as you see fit for credentials.
+
 - If you first start docker and it makes the uploads folder, it will be locked. Run the following command so that the app can create a logs subdirectory `sudo chmod 777 -R ./uploads`
 
 ## pgAdmin

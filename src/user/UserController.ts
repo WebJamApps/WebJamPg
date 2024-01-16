@@ -31,7 +31,7 @@ class UserController {
       return res.status(400).json({ message: 'Invalid create user request' });
     }
     try { hash = await this.bcrypt.hash(password, saltRounds); } catch (e) {
-      return res.status(500).json({ message: `Failed to create user, ${e.message}` });
+      return res.status(500).json({ message: `Failed to create user, ${(e as Error).message}` });
     }
     return this.model.create({ username, password: hash, pin })
       .then((user) => res.status(200).json({ message: `created user: ${user.username}` }))
@@ -53,7 +53,8 @@ class UserController {
 
   async checkPassword(user, password, res) {
     let isMatch;
-    try { isMatch = await this.bcrypt.compare(password, user.password); } catch (e) { return res.status(500).json({ message: `${e.message}` }); }
+    try { isMatch = await this.bcrypt.compare(password, user.password); } catch (e) { 
+      return res.status(500).json({ message: `${(e as Error).message}` }); }
     if (!isMatch) return res.status(400).json({ message: 'Incorrect password' });
     return res.status(200).json({ message: 'Logged In' });
   }
@@ -63,7 +64,8 @@ class UserController {
     const { username, password } = req.body;
     if (!username) { return res.status(400).json({ message: 'Please submit a username' }); }
     if (!password) { return res.status(400).json({ message: 'Please submit a valid password' }); }
-    try { user = await this.model.findOne({ where: { username } }); } catch (e) { return res.status(500).json({ message: `${e.message}` }); }
+    try { user = await this.model.findOne({ where: { username } }); } catch (e) { 
+      return res.status(500).json({ message: `${(e as Error).message}` }); }
     if (!user) return res.status(404).json({ message: `${username} was not found` });
     return this.checkPassword(user, password, res);
   }

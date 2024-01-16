@@ -68,7 +68,7 @@ const runEverything = async () => {
     await runSyncInOrder();
     await runBulkInserts();
     await setUsers();
-  } catch (e) { return doExit(e.message); }
+  } catch (e) { return doExit((e as Error).message); }
   return doExit('db has been populated');
 };
 export default { runEverything, runSyncInOrder };

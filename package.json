@@ -1,8 +1,8 @@
 {
   "name": "webjampg",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
-    "node": ">=14.4.0"
+    "node": ">=20.11.0"
   },
   "main": "src/index",
   "files": [
@@ -10,21 +10,19 @@
   ],
   "scripts": {
     "docker:up": "docker-compose -f docker-compose.yml up --build",
-    "docker:pull": "yarn docker:down && docker pull node:current-alpine && docker-compose pull pgadmin && yarn docker:up",
+    "docker:pull": "npm run docker:down && docker pull node:current-alpine && docker-compose pull pgadmin && npm run docker:up",
     "docker:down": "docker-compose -f 'docker-compose.yml' down",
     "cc": "codeclimate analyze -f html > codeclimate.html",
-    "installglobals": "npm install npm@latest -g && npm install snyk -g",
-    "cleaninstall": "rm -rf yarn.lock && rm -rf package-lock.json && rm -rf node_modules && yarn cache clean && yarn run installglobals && yarn install",
-    "start:debug": "rm -rf ./build && tsc && concurrently \"yarn ts-start\" \"tsc -w\"",
+    "cleaninstall": "rm -rf package-lock.json && rm -rf node_modules && npm cache clean --force && npm install",
+    "start:debug": "rm -rf ./build && tsc && concurrently \"npm run ts-start\" \"tsc -w\"",
     "ts-start": "DEBUG=webjampg:* nodemon build/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "node src/index.js",
-    "test": "eslint . --debug && yarn test:jest",
+    "test": "eslint . --debug && npm run test:jest",
     "test:jest": "jest test --no-cache --config jest.config.json --runInBand --notify --detectOpenHandles --forceExit",
-    "test:local": "eslint . --fix && yarn test:jest && yarn cc",
-    "test:watch": "jest . --watch",
-    "test:snyk": "snyk test"
+    "test:local": "eslint . --fix && npm run test:jest && npm run cc",
+    "test:watch": "jest . --watch"
   },
   "repository": {
     "type": "git",
@@ -52,15 +50,15 @@
     "morgan": "latest",
     "pg": "^8.3.0",
     "pg-hstore": "latest",
-    "sequelize": "latest",
+    "sequelize": "^6.35.2",
     "statsd-client": "latest"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.5",
+    "@types/jest": "^29.5.11",
     "@types/sinon": "^9.0.4",
     "@types/supertest": "^2.0.10",
-    "@typescript-eslint/eslint-plugin": "^3.6.1",
-    "@typescript-eslint/parser": "^3.6.1",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
     "concurrently": "^5.2.0",
     "eslint": "latest",
     "eslint-config-airbnb": "latest",
